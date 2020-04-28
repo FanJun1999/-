@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hdax.mappers.SmbmsBillMapper">
+
+    <select id="findById" parameterType="int" resultMap="billMap">
+        select
+        <include refid="sqlCols"/>
+        from smbms_bill
+        where id=#{id}
+    </select>
+
+    <update id="updateEntity" parameterType="SmbmsBill">
+        update smbms_bill
+        <set>
+            <if test="entity!=null">
+                <if test="entity.billcode!=null and entity.billcode!=''">billcode=#{entity.billcode},</if>
+                <if test="entity.productname!=null and entity.productname!=''">productname=#{entity.productname}</if>
+            </if>
+        </set>
+        where id=#{entity.id}
+    </update>
+
+    <insert id="saveEntity" parameterType="SmbmsBill">
+        insert into smbms_bill(billcode,productname) values(#{entity.billcode},#{entity.productname})
+    </insert>
+
+    <delete id="deleteById" parameterType="int">
+        delete from smbms_bill where id=#{id}
+    </delete>
+
+    <sql id="sqlCols">
+        id, billCode, productName, productDesc, productUnit, productCount, totalPrice, isPayment, createdBy, creationDate, modifyBy, modifyDate, providerId
+    </sql>
+
+    <sql id="sqlCondition">
+        <where>
+            <if test="condition!=null">
+                <if test="condition.productname!=null and condition.productname != ''">
+                    productname like concat('%',#{condition.productname},'%')
+                </if>
+                <if test="condition.providerid != null and condition.providerid!=-1">
+                    providerid = #{condition.providerid}
+                </if>
+            </if>
+        </where>
+    </sql>
+
+    <resultMap id="billMap" type="SmbmsBill">
+        <id property="id" column="id"/>
+        <result property="billcode" column="billcode" />
+        <result property="productname" column="productname" />
+        <result property="productdesc" column="productdesc" />
+        <result property="productunit" column="productunit" />
+        <result property="productcount" column="productcount" />
+        <result property="totalprice" column="totalprice" />
+        <result property="ispayment" column="ispayment" />
+        <result property="createdby" column="createdby" />
+        <result property="creationdate" column="creationdate" />
+        <result property="modifyby" column="modifyby" />
+        <result property="modifydate" column="modifydate" />
+        <result property="providerid" column="providerid" />
+    </resultMap>
+
+    <select id="findByCondition" resultMap="billMap">
+        select
+            <include refid="sqlCols"/>
+        from smbms_bill
+            <include refid="sqlCondition"/>
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="getCountByCondition" resultType="int" parameterType="SmbmsBill">
+        select count(1) from smbms_bill
+        <include refid="sqlCondition"/>
+    </select>
+</mapper>

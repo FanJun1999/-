@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hdax.mappers.SmbmsUserMapper">
+    <sql id="sqlCols">
+        id, userCode, userName, userPassword, gender, birthday, phone, address, userRole, createdBy, creationDate, modifyBy, modifyDate, pic
+    </sql>
+
+    <resultMap id="userMap" type="SmbmsUser">
+        <id property="id" column="id"/>
+        <result property="usercode" column="usercode"/>
+        <result property="username" column="username"/>
+        <result property="userpassword" column="userpassword"/>
+        <result property="gender" column="gender"/>
+        <result property="birthday" column="birthday"/>
+        <result property="phone" column="phone"/>
+        <result property="address" column="address"/>
+
+        <result property="createdby" column="createdby"/>
+        <result property="creationdate" column="creationdate"/>
+        <result property="modifyby" column="modifyby"/>
+        <result property="modifydate" column="modifydate"/>
+    </resultMap>
+
+    <select id="findByUsername" parameterType="java.lang.String" resultMap="userMap">
+        select
+         <include refid="sqlCols"/>
+         from smbms_user
+         where username=#{username}
+    </select>
+</mapper>

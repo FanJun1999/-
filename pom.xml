@@ -10,6 +10,7 @@
     <modules>
         <module>shiro-ini</module>
         <module>shiro-custom</module>
+        <module>shiro-ssm1</module>
     </modules>
     <packaging>pom</packaging>
     <dependencies>

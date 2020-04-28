@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hdax.mappers.SmbmsProviderMapper">
+    <sql id="sqlCols">
+        id, proCode, proName, proDesc, proContact, proPhone, proAddress, proFax, createdBy, creationDate, modifyDate, modifyBy
+    </sql>
+
+    <resultMap id="providerMap" type="SmbmsProvider">
+        <id property="id" column="id"/>
+        <result property="procode" column="procode" />
+        <result property="proname" column="proname" />
+        <result property="prodesc" column="prodesc" />
+        <result property="procontact" column="procontact" />
+        <result property="prophone" column="prophone" />
+        <result property="proaddress" column="proaddress" />
+        <result property="profax" column="profax" />
+        <result property="createdby" column="createdby" />
+        <result property="creationdate" column="creationdate" />
+        <result property="modifydate" column="modifydate" />
+        <result property="modifyby" column="modifyby" />
+    </resultMap>
+
+    <select id="findAll" resultMap="providerMap">
+        select
+            <include refid="sqlCols"/>
+        from smbms_provider
+    </select>
+</mapper>

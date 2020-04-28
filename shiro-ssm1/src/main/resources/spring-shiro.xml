@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="loginUrl" value="/user/login"/>
+        <property name="successUrl" value="/main"/>
+        <property name="unauthorizedUrl" value="/refuse.jsp"/>
+        <property name="filterChainDefinitions">
+            <value>
+                /logout=logout
+                /layuiadmin/**=anon
+                /css/**=anon
+                /js/**=anon
+                /**=authc
+            </value>
+        </property>
+        <property name="filters">
+            <map>
+                <entry key="authc" value-ref="formFilter"/>
+            </map>
+        </property>
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="myreaml"/>
+    </bean>
+    <bean id="myreaml" class="com.hdax.reaml.reaml">
+        <property name="credentialsMatcher" ref="creadentialsmathcer"/>
+    </bean>
+    <bean id="creadentialsmathcer" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+        <property name="hashAlgorithmName" value="md5"/>
+        <property name="hashIterations"  value="2"/>
+    </bean>
+</beans>
